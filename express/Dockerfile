@@ -1,13 +1,18 @@
-FROM node:25.2.0-alpine
-
+# --Stage 1-- Build stage
+FROM node:25.2.0-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
 
-ENV PORT = 3000
+# --Stage 2-- Production Stage
+FROM node:25.2.0-alpine
+WORKDIR /app
+
+COPY --from=builder /app /app
+
+EXPOSE 3000
+ENV PORT=3000
 
 CMD [ "node", "index.js" ]

@@ -1,15 +1,11 @@
 FROM node:25.2.0-alpine
-
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
 
-EXPOSE 5173
+EXPOSE 4000
+ENV PORT=4000
 
-CMD [ "npm", "run", "dev" ]
-
-
+CMD [ "node", "main.js" ]
